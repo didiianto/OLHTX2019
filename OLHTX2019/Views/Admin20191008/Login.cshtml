@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container" style="padding:10%;">
+    <div class="row" style="display:block;" id="dvLogin">
+        <div class="col-md-8 order-md-1 m-auto">
+            <div class="row mb-4">
+                <div class="col-md-4"><hr style="border-top: 1px solid;"></div>
+                <div class="col-md-4 text-center"><h4>Admin Login</h4></div>
+                <div class="col-md-4"><hr style="border-top: 1px solid;"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="mb-3" for="txtLoginId">Login ID</label>
+                    <input type="text" id="txtLoginId" class="form-control" placeholder="Login Id" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="mb-3" for="txtPassword">Password</label>
+                    <input type="password" id="txtPassword" class="form-control" placeholder="Password" />
+                </div>
+            </div>
+            <input type="submit" id="btnSubmit" value="Login" onclick="if(ValidateForm()) return Login(); return false" class="btn btn-primary btn-lg btn-block col-md-4 m-auto custome" />
+        </div>
+    </div>
+    <div class="row" style="display:none;" id="dvOtp">
+        <div class="col-md-8 order-md-1 m-auto">
+            <div class="row mb-4">
+                <div class="col-md-4"><hr style="border-top: 1px solid;"></div>
+                <div class="col-md-4 text-center"><h4>One Time Password</h4></div>
+                <div class="col-md-4"><hr style="border-top: 1px solid;"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <input type="hidden" id="hdfLoginId" />
+                    <label class="mb-3" for="txtLoginId">OTP Code</label>
+                    <input type="password" id="txtOtpCode" class="form-control" placeholder="Enter OTP" />
+                </div>
+            </div>
+            <input type="submit" id="btnOtp" value="Submit" onclick="if (ValidateOtp()) return SubmitOtp(); return false" class="btn btn-primary btn-lg btn-block col-md-4 m-auto custome" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 order-md-1 m-auto text-center">
+            <label class="error" id="lblError"></label>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function ValidateForm() {
+        var isValid = true;
+
+        $(":input").after("<span class='error'></span>");
+
+        var loginId = $('#txtLoginId').val();
+        var password = $('#txtPassword').val();
+
+        $("#txtLoginId").next().text("");
+        $("#txtPassword").next().text("");
+
+        if (loginId == "") {
+            $("#txtLoginId").next().text("Login is required.");
+            isValid = false;
+        }
+        if (password == "") {
+            $("#txtPassword").next().text("Password is required.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+    function ValidateOtp() {
+        var isValid = true;
+
+        $(":input").after("<span class='error'></span>");
+
+        var otpCode = $('#txtOtpCode').val();
+        $("#txtOtpCode").next().text("");
+
+        if (otpCode == "") {
+            $("#txtOtpCode").next().text("OTP code is required.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function SubmitOtp() {
+
+        var otpCode = $('#txtOtpCode').val();
+        var loginId = $('#txtLoginId').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SetLoginSession", "Admin20191008")',
+            data: {
+
+                loginId: loginId,
+                otpCode: otpCode
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = '@Url.Action("Dashboard", "Admin20191008")';
+                }
+                else {
+                    document.getElementById("lblError").innerHTML = data.errorMessage;
+                }
+            }
+        })
+    }
+
+    function Login() {
+
+        var loginId = $('#txtLoginId').val();
+        var password = $('#txtPassword').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Login", "Admin20191008")',
+            data: {
+                loginId: loginId,
+                password: password
+            },
+            success: function (data) {
+                if (data.success == true && data.errorMessage == "jump-otp") {
+                    window.location = '@Url.Action("Dashboard", "Admin20191008")';
+                }
+                else if (data.success == true && data.errorMessage == "keyed-otp") {
+                    document.getElementById("dvLogin").style.display = "none";
+                    document.getElementById("dvOtp").style.display = "block";
+                    document.getElementById("lblError").innerHTML = "";
+                }
+                else {
+                    document.getElementById("lblError").innerHTML = data.errorMessage;
+                }
+            }
+        })
+    }
+</script>

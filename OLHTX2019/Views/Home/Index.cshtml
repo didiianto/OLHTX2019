@@ -1,0 +1,14 @@
+﻿@model OLHTX2019.Models.ViewModel.RegistrationViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<body class="text-center" style="background-image:url(../../Images/bg.jpg)">
+    <form class="form-signin">
+        <h1 class="text-white">Official<br>Launch<br>of <b>HTX</b></h1>
+        @Html.ActionLink("Click here to register", "Register", "Registration", new { id = Model.IdStringEncypted }, new { @class = "btn btn-primary home" })
+        <br />
+        <br />
+        <span>For enquiries please email <a href="mailto:Htx_launch_registration@mha.gov.sg" style="color:#fff !important">Htx_launch_registration@mha.gov.sg</a></span>
+    </form>
+</body>

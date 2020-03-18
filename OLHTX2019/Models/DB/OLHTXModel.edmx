@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OLHTX2019Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="LoginId" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="DateLastLogin" Type="datetime" />
+          <Property Name="IsRequiredOTP" Type="bit" />
+          <Property Name="OtpCode" Type="varchar" MaxLength="50" />
+          <Property Name="DateOtpGenerated" Type="datetime" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RegId" Type="uniqueidentifier" />
+          <Property Name="AdminId" Type="varchar" MaxLength="50" />
+          <Property Name="Action" Type="varchar" MaxLength="150" />
+          <Property Name="Module" Type="nvarchar" MaxLength="200" />
+          <Property Name="SubModule" Type="nvarchar" MaxLength="200" />
+          <Property Name="DataChange" Type="nvarchar(max)" />
+          <Property Name="DateAction" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SerialNo" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+          <Property Name="IDType" Type="varchar" MaxLength="50" />
+          <Property Name="IDNumber" Type="varchar" MaxLength="100" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="Organisation" Type="varchar" MaxLength="250" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="ImageType" Type="varchar" MaxLength="150" />
+          <Property Name="ImageName" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="DateSubmited" Type="datetime" />
+          <Property Name="Designation" Type="varchar" MaxLength="150" />
+          <Property Name="StepsAction" Type="varchar" MaxLength="50" />
+          <Property Name="IsOpenForm" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OLHTX2019.dbo.Registration_bak' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WebUrl" Type="varchar" MaxLength="3000" />
+          <Property Name="RootStorageVirtual" Type="varchar" MaxLength="3000" />
+          <Property Name="RootStoragePhysical" Type="varchar" MaxLength="3000" />
+          <Property Name="RunningNo" Type="varchar" MaxLength="50" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="EmailSender" Type="varchar" MaxLength="250" />
+          <Property Name="EmailSenderName" Type="varchar" MaxLength="250" />
+          <Property Name="EmailCC" Type="varchar" MaxLength="2000" />
+          <Property Name="EmailBcc" Type="varchar" MaxLength="2000" />
+          <Property Name="EmailConfirmationSubject" Type="nvarchar" MaxLength="2000" />
+          <Property Name="SerialFormat" Type="varchar" MaxLength="50" />
+          <Property Name="EmailHost" Type="varchar" MaxLength="1000" />
+          <Property Name="EmailPort" Type="int" />
+          <Property Name="WebLocation" Type="varchar" MaxLength="2000" />
+          <Property Name="EmailUsername" Type="varchar" MaxLength="50" />
+          <Property Name="EmailPassword" Type="nvarchar" MaxLength="2000" />
+          <Property Name="EmailInviteSubject" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityContainer Name="OLHTX2019ModelStoreContainer">
+          <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Setting" EntityType="Self.Setting" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OLHTX2019Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OLHTX2019Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Settings" EntityType="OLHTX2019Model.Setting" />
+          <EntitySet Name="Registrations" EntityType="OLHTX2019Model.Registration" />
+          <EntitySet Name="AuditLogs" EntityType="OLHTX2019Model.AuditLog" />
+          <EntitySet Name="Administrators" EntityType="OLHTX2019Model.Administrator" />
+        </EntityContainer>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="WebUrl" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="RootStorageVirtual" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="RootStoragePhysical" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="RunningNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="EmailSender" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EmailSenderName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EmailCC" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="EmailBcc" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="EmailConfirmationSubject" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="SerialFormat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailHost" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="EmailPort" Type="Int32" />
+          <Property Name="WebLocation" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="EmailUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailPassword" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="EmailInviteSubject" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="SerialNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IDType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IDNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ImageType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="DateSubmited" Type="DateTime" Precision="3" />
+          <Property Name="Designation" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="StepsAction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsOpenForm" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="RegId" Type="Guid" />
+          <Property Name="AdminId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Module" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SubModule" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DataChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateAction" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="DateLastLogin" Type="DateTime" Precision="3" />
+          <Property Name="IsRequiredOTP" Type="Boolean" />
+          <Property Name="OtpCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateOtpGenerated" Type="DateTime" Precision="3" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OLHTX2019ModelStoreContainer" CdmEntityContainer="OLHTX2019Entities">
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="OLHTX2019Model.Setting">
+              <MappingFragment StoreEntitySet="Setting">
+                <ScalarProperty Name="EmailInviteSubject" ColumnName="EmailInviteSubject" />
+                <ScalarProperty Name="EmailPassword" ColumnName="EmailPassword" />
+                <ScalarProperty Name="EmailUsername" ColumnName="EmailUsername" />
+                <ScalarProperty Name="WebLocation" ColumnName="WebLocation" />
+                <ScalarProperty Name="EmailPort" ColumnName="EmailPort" />
+                <ScalarProperty Name="EmailHost" ColumnName="EmailHost" />
+                <ScalarProperty Name="SerialFormat" ColumnName="SerialFormat" />
+                <ScalarProperty Name="EmailConfirmationSubject" ColumnName="EmailConfirmationSubject" />
+                <ScalarProperty Name="EmailBcc" ColumnName="EmailBcc" />
+                <ScalarProperty Name="EmailCC" ColumnName="EmailCC" />
+                <ScalarProperty Name="EmailSenderName" ColumnName="EmailSenderName" />
+                <ScalarProperty Name="EmailSender" ColumnName="EmailSender" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="RunningNo" ColumnName="RunningNo" />
+                <ScalarProperty Name="RootStoragePhysical" ColumnName="RootStoragePhysical" />
+                <ScalarProperty Name="RootStorageVirtual" ColumnName="RootStorageVirtual" />
+                <ScalarProperty Name="WebUrl" ColumnName="WebUrl" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="OLHTX2019Model.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="IsOpenForm" ColumnName="IsOpenForm" />
+                <ScalarProperty Name="StepsAction" ColumnName="StepsAction" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="DateSubmited" ColumnName="DateSubmited" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Organisation" ColumnName="Organisation" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="IDType" ColumnName="IDType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditLogs">
+            <EntityTypeMapping TypeName="OLHTX2019Model.AuditLog">
+              <MappingFragment StoreEntitySet="AuditLog">
+                <ScalarProperty Name="DateAction" ColumnName="DateAction" />
+                <ScalarProperty Name="DataChange" ColumnName="DataChange" />
+                <ScalarProperty Name="SubModule" ColumnName="SubModule" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="RegId" ColumnName="RegId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Administrators">
+            <EntityTypeMapping TypeName="OLHTX2019Model.Administrator">
+              <MappingFragment StoreEntitySet="Administrator">
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="DateOtpGenerated" ColumnName="DateOtpGenerated" />
+                <ScalarProperty Name="OtpCode" ColumnName="OtpCode" />
+                <ScalarProperty Name="IsRequiredOTP" ColumnName="IsRequiredOTP" />
+                <ScalarProperty Name="DateLastLogin" ColumnName="DateLastLogin" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Invite";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Invite</h2>
+<input type="text" id="email" />
+<input type="submit" value="Send" onclick="Send()"  />
+<script>
+    function Send() {
+
+        var email = $('#email').val();
+
+        if (email != "") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Invite", "Home")',
+                data: { email: email },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert('Ok');
+                    }
+                    else {
+                        alert(data.errorMessage);
+                    }
+                }
+            })
+        }
+    }
+</script>

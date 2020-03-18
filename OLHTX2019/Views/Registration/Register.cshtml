@@ -1,0 +1,349 @@
+﻿@model OLHTX2019.Models.ViewModel.RegistrationViewModel
+@using OLHTX2019.Helper
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var select1 = "";
+    var select2 = "";
+    var action = Request.QueryString["act"];
+    var isFromAdmin = Request.QueryString["fa"];
+
+    if(isFromAdmin == "TCFRXyt9ACb8rP9f")
+    {
+        if (!Security.IsAdminLogin())
+        {
+            { Response.Redirect("~/Admin20191008/Dashboard");}
+        }
+    }
+
+    var disable = "";
+    var disableName = "disabled";
+    if (action == "1")
+    {
+        disable = "disabled";
+    }
+
+    var _id = "";
+    if (!Validate.IsRegFormOpenForm(Model.IdStringEncypted))
+    {
+        _id = GeneralHelper.Base64Decode(Model.IdStringEncypted);
+    }
+    else
+    {
+        _id = Model.IdStringEncypted;
+        disableName = "enabled";
+    }
+
+
+}
+
+<script>
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+@if (!Security.IsAdminLogin())
+{ <a href="@Url.Action("Index", "Home", new { id = Model.IdStringEncypted })"><div class="back-button text-white"><img src="https://i.ibb.co/ThB3gMc/1331211-200.png"> Back</div></a>}
+<div class="transparentCover"></div>
+<div class="loading"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 order-md-1 m-auto">
+            <div class="row mb-4">
+                <div class="col-md-4"><hr style="border-top: 1px solid;"></div>
+                <div class="col-md-4 text-center"><h4>Registration</h4></div>
+                <div class="col-md-4"><hr style="border-top: 1px solid;"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <input type="hidden" id="hdfId" value="@_id" />
+                    <label class="mb-3" for="txtName">*Please fill up the form below to RSVP</label>
+                    <input type="text" id="txtName" value="@Model.Name" class="form-control" max="100" @disableName placeholder="Name" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="d-none" for="address">Designation</label>
+                <input type="text" class="form-control" id="txtDesignation" value="@Model.Designation" @disable maxlength="120" placeholder="Designation" required>
+                <div class="invalid-feedback">
+                    Please enter your shipping address.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="d-none" for="email">Organisation</label>
+                <input type="text" id="txtOrganisation" value="@Model.Organisation" @disable class="form-control" maxlength="200" placeholder="Organisation" />
+            </div>
+            <div style="display:none">
+                <div class="d-block m-3 d-none" style="display:none">
+                    @*Removed, client did not need anymore*@
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input id="credit" name="idType" type="radio" @{if (Model.IDType == "1") { select1 = "checked"; } else { select1 = ""; } } @select1 @disable value="1" class="custom-control-input" required>
+                        <label class="custom-control-label" for="credit">NRIC<br><small class="text-muted">(In full)</small></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline ml-5">
+                        <input id="paypal" name="idType" type="radio" @{if (Model.IDType == "2") { select2 = "checked"; } else { select2 = ""; } } @select2 @disable value="2" class="custom-control-input" required>
+                        <label class="custom-control-label" for="paypal">Passport No<br><small class="text-muted">(For foreign guests)</small></label>
+                    </div>
+                    <br />
+                    <span id="spErrIdType" class="error"></span>
+                </div>
+            </div>
+                <div class="row mx-3" style="display:none;"> @*Removed, client did not need anymore*@
+                    <div class="col-md-6 mb-3">
+                        <label class="d-none" for="txtIDNumber">ID Number</label>
+                        <input type="text" id="txtIDNumber" value="@Model.IDNumber" @disable class="form-control" />
+                        <small class="text-muted d-none">Full name as displayed on card</small>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="d-none" for="mobile">Mobile</label>
+                    <input type="text" id="txtMobile" value="@Model.Mobile" @disable maxlength="15" class="form-control" placeholder="Mobile" />
+                </div>
+                <div class="mb-3">
+                    <label class="d-none" for="email">Email</label>
+                    <input type="email" id="txtEmail" value="@Model.Email" @disable class="form-control" maxlength="100" placeholder="Email" />
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="custom-file mb-3">
+                            <input type="file" id="fuImage" class="custom-file-input" @disable name="filename" />
+                            <label class="custom-file-label" style="padding-right: 76px;" for="fuImage">Upload your photo</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3" style="line-height: normal;">
+                        <small class="text-white">
+                            Optional: please upload your photo to experience breeze-through registration at the event.
+                            <i>(35mm x 45mm, jpg/jpeg format, < 6mb)</i>
+                        </small>
+                    </div>
+                </div>
+            <div class="row mb-4">
+                <div class="col-md-12 mb-3">
+                    <span>For enquiries please email <a href="mailto:Htx_launch_registration@mha.gov.sg" style="color:#fff !important">Htx_launch_registration@mha.gov.sg</a></span>
+                </div>
+            </div>
+            @if (Security.IsAdminLogin())
+            {
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <img src="@Url.Action("GetImage", new { id = Model.Id })" style="max-height:200px" />
+                    </div>
+                </div>
+            }
+            @if (action != "1")
+            {
+                <input type="submit" id="btnSubmit" value="Submit" class="btn btn-primary btn-lg btn-block col-md-4 m-auto custome" />
+            }
+            @if (Security.IsAdminLogin())
+            {
+                <div class="py-3 mb-3 text-center"><a href="@Url.Action("Dashboard","Admin20191008", null)" class="cancel-button">Back</a></div>
+            }
+            else
+            {
+                <div class="py-3 mb-3 text-center"><a href="@Url.Action("Index","Home", new { id = Model.IdStringEncypted })" class="cancel-button">Cancel</a></div>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+    $(document).ready(function () {
+        $(":input").after("<span class='error'></span>");
+        $("#btnSubmit").click(function (e) {
+            SaveForm();
+        });
+    });
+
+    function ValidateSize(file) {
+        var fileSize = file.files[0].size / 1024 / 1024; // in MB
+        if (fileSize > 7) {
+            return false;
+        }
+        return true;
+    }
+
+
+    function ValidateForm() {
+        var isValid = true;
+        var isRequired = !@Security.IsAdminLogin().ToString().ToLower();
+
+        var name = $('#txtName').val();
+        var designation = $('#txtDesignation').val();
+        var idType = "";
+
+        var idNumber = $('#txtIDNumber').val();
+        var mobile = $('#txtMobile').val();
+        var email = $('#txtEmail').val();
+        var organisation = $('#txtOrganisation').val();
+        var fuImage = $('#fuImage').val();
+        var fuImageId = document.getElementById('fuImage');
+        document.getElementById("spErrIdType").innerHTML = "";
+
+        var userId = $('#hdfId').val();
+
+        $("#txtName").next().text("");
+        $("#txtDesignation").next().text("");
+        $("#idType").next().text("");
+        $("#txtIDNumber").next().text("");
+        $("#txtMobile").next().text("");
+        $("#txtEmail").next().text("");
+        $("#txtOrganisation").next().text("");
+        $('#fuImage').next().text("");
+
+        if (name == "" && isRequired) {
+            $("#txtName").next().text("Name is required.");
+            isValid = false;
+        }
+        if (designation == "" && isRequired) {
+            $("#txtDesignation").next().text("Designation is required.");
+            isValid = false;
+        }
+
+        //var isIdTypeSelected = false;
+        //$('input:radio').each(function() {
+        //    if($(this).is(':checked')) {
+        //        idType = $(this).val();
+        //        document.getElementById("spErrIdType").innerHTML = "";
+        //        isIdTypeSelected = true;
+        //        return isIdTypeSelected;
+        //    }
+        //});
+
+        //isValid = isIdTypeSelected;
+
+        //if(isIdTypeSelected == false && isRequired){
+        //    document.getElementById("spErrIdType").innerHTML = "ID type is required.";
+        //}
+
+
+        //if (idNumber == "" && isRequired) {
+        //    $("#txtIDNumber").next().text("ID number is required.");
+        //    isValid = false;
+        //}
+        if (mobile == "" && isRequired) {
+            $("#txtMobile").next().text("Mobile is required.");
+            isValid = false;
+        }
+        else if(mobile != "") {
+            if (Number.isInteger(parseInt(mobile))) { isValid = true; }
+            else { $("#txtMobile").next().text("Should be in number only."); isValid = false;};
+        }
+
+        if (email == "" && isRequired) {
+            $("#txtEmail").next().text("Email is required.");
+            isValid = false;
+        }
+        else if (!emailIsValid(email)) {
+            $("#txtEmail").next().text("Email is not valid.");
+            isValid = false;
+        }
+        else
+        {
+        }
+
+        if (organisation == "" && isRequired) {
+            $("#txtOrganisation").next().text("Organisation is required.");
+            isValid = false;
+        }
+
+        //Image not mandatory, request on 17/10/2019
+
+        //if (fuImage == "" && isRequired == true) {
+        //    $('#fuImage').next().text("Photo is required.");
+        //    isValid = false;
+        //}
+        if (fuImage != "") {
+            var allowed_extensions = new Array("jpg", "jpeg");
+            var file_extension = fuImage.split('.').pop().toLowerCase();
+            $('#fuImage').next().text("Please upload image with extension jpg or jpeg only.");
+            isValid = false;
+
+            for (var i = 0; i <= allowed_extensions.length; i++) {
+                if (allowed_extensions[i] == file_extension) {
+                    $('#fuImage').next().text("");
+                    isValid = true;
+                }
+            }
+            if (!ValidateSize(fuImageId)) {
+                $('#fuImage').next().text("Image exceed 6 MB.");
+                isValid = false;
+            }
+        }
+
+        //end image
+
+        return isValid;
+    }
+
+    function SaveForm() {
+
+        var id = $('#hdfId').val();
+        var name = $('#txtName').val();
+        var designation = $('#txtDesignation').val();
+        var idType = $("input[name=idType]:checked").val();
+        var idNumber = $('#txtIDNumber').val();
+        var mobile = $('#txtMobile').val();
+        var email = $('#txtEmail').val();
+        var organisation = $('#txtOrganisation').val();
+        var fuImage = document.getElementById('fuImage');
+        var files = fuImage.files;
+
+        var data = new FormData();
+        if (files.length > 0) {
+            data.append("file", files[0]);
+        }
+
+        data.append("id", id);
+        data.append("name", name);
+        data.append("designation", designation);
+        //data.append("idType", idType);
+        //data.append("idNumber", idNumber);
+        data.append("mobile", mobile);
+        data.append("email", email);
+        data.append("organisation", organisation);
+
+
+        if (ValidateForm() == true) {
+            $(".transparentCover").show();
+            $(".loading").show();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Register", "Registration")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (data) {
+                    if (data.success == true) {
+                        $(".transparentCover").hide();
+                        $(".loading").hide();
+                        window.location = data.urlRed;
+                    }
+                    else if (data.success == true && data.errorMessage == "throw-to-thanks"){
+                        $(".transparentCover").hide();
+                        $(".loading").hide();
+                        window.location = "/Registration/ThankYou";
+                    }
+                    else {
+                        $(".transparentCover").hide();
+                        $(".loading").hide();
+                        alert(data.errorMessage);
+                    }
+                }
+            })
+        }
+    }
+
+
+    function emailIsValid(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+</script>

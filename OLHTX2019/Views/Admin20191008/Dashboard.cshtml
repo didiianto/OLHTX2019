@@ -1,0 +1,318 @@
+﻿@using OLHTX2019.Helper
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style type="text/css">
+    a.invlink{
+        color:#007bff !important;
+    }
+    a.invlink:hover{
+        color:#007bff !important;
+        text-decoration:underline !important;
+        cursor:pointer;
+    }
+}
+</style>
+
+<div style="padding-top:40px; padding-left:20px; padding-right:20px">
+
+    
+        <div class="row" style="padding:5px">
+            <div class="col-md-2">Report:</div>
+            @using (Html.BeginForm("GenerateReport", "Admin20191008", FormMethod.Post))
+            {
+                <div class="col-md-2 text-left">
+                    <input type="submit" value="Report" class="btn btn-primary btn-lg m-auto custom" />
+                </div>
+            }
+            @using (Html.BeginForm("GenerateReportAll", "Admin20191008", FormMethod.Post))
+            {
+                <div class="col-md-2 text-left">
+                    <input type="submit" value="Full Report" class="btn btn-primary btn-lg m-auto custom" />
+                </div>
+            }
+        </div>
+
+    <div class="row" style="padding:5px">
+        <label class="filter-label col-md-2" for="filter">Filter by status:</label>
+        <div class="col-md-2">
+
+            @(Html.Kendo().DropDownList()
+                .Name("StepAction")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Events(e => e.Change("onChange"))
+                .BindTo(new List<SelectListItem>() {
+                    new SelectListItem() {
+                        Text = "- Select -",
+                        Value = ""
+                    },
+                    new SelectListItem() {
+                        Text = "Invited",
+                        Value = "INVT"
+                    },
+                    new SelectListItem() {
+                        Text = "Read",
+                        Value = "READ"
+                    },
+                    new SelectListItem() {
+                        Text = "Clicked",
+                        Value = "CLICK"
+                    },
+                    new SelectListItem() {
+                        Text = "Completed",
+                        Value = "CPLT"
+                    }
+                })
+            )
+        </div>
+    </div>
+    <div class="row" style="padding:5px">
+        <label class="filter-label col-md-2" for="filter">Filter by registered:</label>
+        <div class="col-md-2">
+
+            @(Html.Kendo().DropDownList()
+                .Name("Registered")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Events(e => e.Change("onChange"))
+                .BindTo(new List<SelectListItem>() {
+                    new SelectListItem() {
+                        Text = "- Select -",
+                        Value = ""
+                    },
+                    new SelectListItem() {
+                        Text = "All",
+                        Value = "AllRegistered"
+                    },
+                    new SelectListItem() {
+                        Text = "Register",
+                        Value = "OK"
+                    },
+                    new SelectListItem() {
+                        Text = "Not Register",
+                        Value = "DFT"
+                    }
+                })
+            )
+        </div>
+    </div>
+
+    <div class="row" style="padding:5px">
+        <label class="filter-label col-md-2" for="filter">Filter by generic:</label>
+        <div class="col-md-2">
+
+            @(Html.Kendo().DropDownList()
+                .Name("Generic")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Events(e => e.Change("onChange"))
+                .BindTo(new List<SelectListItem>() {
+                    new SelectListItem() {
+                        Text = "- Select -",
+                        Value = ""
+                    },
+                    new SelectListItem() {
+                        Text = "All",
+                        Value = "AllGeneric"
+                    },
+                    new SelectListItem() {
+                        Text = "Generic",
+                        Value = "True"
+                    },
+                    new SelectListItem() {
+                        Text = "Non Generic",
+                        Value = "False"
+                    }
+                })
+            )
+        </div>
+    </div>
+
+    <div class="row" style="padding:5px">
+        <label class="filter-label col-md-2" for="filter">Additional keyword:</label>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" id='FieldFilter' style="background-color:#b5babf !important" placeholder="Serial No, Name, Designation, Email, Organisation">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding:5px">
+        <div class="col-md-4 offset-2">
+            <input type="button" id="btnReset" class="btn btn-primary btn-lg m-auto custom" value="Reset" onclick="ResetFilter()" />
+        </div>
+    </div>
+
+
+        <div class="row" style="padding:5px">
+            <label id="lblMessage" class="error col-md-2"></label>
+        </div>
+        <div style="padding-top:10px;">
+            <input type="hidden" id="hdfRole" />
+            @(Html.Kendo().Grid<OLHTX2019.Models.ViewModel.RegistrationViewModel>()
+                .Name("grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(c => c.IdStringEncypted).Hidden();
+                    columns.Bound(c => c.SerialNo).Width(110);
+                    columns.Bound(c => c.Name);
+                    columns.Bound(c => c.Designation);
+                    columns.Bound(c => c.Organisation);
+                    columns.Bound(c => c.Mobile).Width(145);
+                    columns.Bound(c => c.Email);
+                    columns.Bound(c => c.StepAction).Width(100).HeaderTemplate("Status");
+                    columns.Bound(c => c.OpenForm).Width(120).HeaderTemplate("Generic");
+                    columns.Bound(c => c.DateSubmited).Format("{0: dd MMM yyyy HH:mm:ss}").Width(125);
+                    columns.Bound(c => c.AdminRole).Width(125).Hidden();
+                    columns.Bound(c => c.Id).Width(125).ClientTemplate(
+                    "# if(AdminRole == 'SA' ) { #" +
+                        "# if (StepAction != 'Completed') { #" +
+                            "<a class='invlink' onclick=" + "SentInviteEmail('#=Id#')" + ">Invite</a>" + "|" +
+                        "# } #" +
+                        "<a href='" + Url.Action("Register", "Registration") + "/#= IdStringEncypted #?act=#= 2 #&fa=#='TCFRXyt9ACb8rP9f'#'" + ">Edit</a>" + "|" +
+                    "# } #" +
+                    "<a href='" + Url.Action("Register", "Registration") + "/#= IdStringEncypted #?act=#= 1 #&fa=#='TCFRXyt9ACb8rP9f'#'" + ">View</a>"
+
+                        ).Title("Action");
+                })
+                .HtmlAttributes(new { style = "height: auto;" })
+                //.Scrollable()
+                .Groupable()
+                .Sortable()
+                .Pageable(pageable => pageable
+                    .Refresh(true)
+                    .PageSizes(true)
+                    .ButtonCount(5))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("Dashboard_Grid", "Admin20191008").Data("additionalData"))
+                    .PageSize(50)
+                    .ServerOperation(false)
+                )
+            )
+
+
+        </div>
+
+</div>
+
+<script type="text/javascript">
+    function ResetFilter(){
+        window.location.href ="/Admin20191008/Dashboard";
+    }
+    $(document).ready(function () {
+        $("#FieldFilter").keyup(function () {
+
+            var value = $("#FieldFilter").val();
+            grid = $("#grid").data("kendoGrid");
+
+            if (value) {
+                grid.dataSource.filter({
+                    logic: "or",
+                    filters: [
+                        {
+                            field: "SerialNo",
+                            operator: "contains",
+                            value: value
+                        },
+                        {
+                            field: "Name",
+                            operator: "contains",
+                            value: value
+                        },
+                        {
+                            field: "Designation",
+                            operator: "contains",
+                            value: value
+                        },
+                        {
+                            field: "Email",
+                            operator: "contains",
+                            value: value
+                        },
+                        {
+                            field: "Organisation",
+                            operator: "contains",
+                            value: value
+                        }
+                    ]
+                });
+            } else {
+                grid.dataSource.filter({});
+            }
+        });
+    });
+
+    kendo.ui.Groupable.prototype.options.messages =
+        $.extend(kendo.ui.Groupable.prototype.options.messages,
+                { empty: "Registration List" }
+        );
+
+    function additionalData(e) {
+        console.log(e.filter);
+        var value = '';
+        $("#StepAction").data("kendoDropDownList").val = '';
+        $("#Registered").data("kendoDropDownList").val = '';
+        $("#Generic").data("kendoDropDownList").val = '';
+        if ($("#StepAction").data("kendoDropDownList").value() != '') {
+            value += $("#StepAction").data("kendoDropDownList").value() + ",";
+        }
+        if ($("#Registered").data("kendoDropDownList").value() != '') {
+            value += $("#Registered").data("kendoDropDownList").value() + ",";
+        }
+
+        if ($("#Generic").data("kendoDropDownList").value() != '') {
+            value += $("#Generic").data("kendoDropDownList").value() + ",";
+        }
+        return { filterBy: value }; // send the filter value as part of the Read request
+    }
+
+    function onChange() {
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.read(); // rebind the Grid's DataSource
+    }
+
+    function SentInviteEmail(id) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Invite", "Admin20191008")',
+            data: {
+                id: id,
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    $("#lblMessage").text(data.message);
+                }
+                else {
+                }
+            }
+        })
+    }
+
+    function DeleteRegistration(itemId) {
+        var id = itemId;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteRegistration", "Admin20191008")',
+            data: {
+                id: id,
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = '@Url.Action("Dashboard", "Admin20191008")';
+                }
+                else {
+                    alert(data.errorMessage);
+                }
+            }
+        })
+    }
+
+</script>
+

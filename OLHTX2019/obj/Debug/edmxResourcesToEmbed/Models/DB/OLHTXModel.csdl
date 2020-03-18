@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OLHTX2019Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="OLHTX2019Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Settings" EntityType="OLHTX2019Model.Setting" />
+    <EntitySet Name="Registrations" EntityType="OLHTX2019Model.Registration" />
+    <EntitySet Name="AuditLogs" EntityType="OLHTX2019Model.AuditLog" />
+    <EntitySet Name="Administrators" EntityType="OLHTX2019Model.Administrator" />
+  </EntityContainer>
+  <EntityType Name="Setting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="WebUrl" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="RootStorageVirtual" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="RootStoragePhysical" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="RunningNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="EmailSender" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="EmailSenderName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="EmailCC" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="EmailBcc" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="EmailConfirmationSubject" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="SerialFormat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmailHost" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="EmailPort" Type="Int32" />
+    <Property Name="WebLocation" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="EmailUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmailPassword" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="EmailInviteSubject" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="SerialNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="IDType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IDNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ImageType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="ImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="DateSubmited" Type="DateTime" Precision="3" />
+    <Property Name="Designation" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="StepsAction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsOpenForm" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="AuditLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="RegId" Type="Guid" />
+    <Property Name="AdminId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Action" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Module" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SubModule" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DataChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DateAction" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Administrator">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LoginId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="DateLastLogin" Type="DateTime" Precision="3" />
+    <Property Name="IsRequiredOTP" Type="Boolean" />
+    <Property Name="OtpCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateOtpGenerated" Type="DateTime" Precision="3" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,20 @@
+﻿@model OLHTX2019.Models.ViewModel.RegistrationListViewModel
+@{
+    ViewBag.Title = "GetRegList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetRegList</h2>
+
+<table>
+    <tr>
+        <td>Id</td>
+    </tr>
+    @foreach(var item in Model.RegistrationViewModelList)
+    {
+        <tr>
+            <td>@item.Id</td>
+        </tr>
+    }
+</table>
+

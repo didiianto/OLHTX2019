@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <style type="text/css">
+		table{
+			background-color: #66339c;
+			font-family: sans-serif;
+			font-weight: bold;
+			color: #fff;
+		}
+        span{
+            color:#fff;
+            float:left;
+        }
+		.pl-20{padding-left: 20px;}
+        a{
+            color:#00ffff !important;
+        }
+		.mw-150{min-width: 150px;}
+		.mw-20{min-width: 20px;}
+    </style>
+</head>
+<body>
+    <table align='center' width="800" cellspacing="0">
+        <tr>
+            <td colspan="2">
+                <img src=cid:header style="max-width:100%" alt="banner" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="pl-20">
+                Dear <strong>#name#</strong>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="pl-20">
+                Your registration was successful!
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="pl-20">
+                Registration details are as follows :
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+		<tr>
+			<td style="text-align: center; width: 40%">
+				<img src=cid:photo width="250" alt="image" class="pl-20" /><br /><br />
+                <p class="pl-20" style="margin: 0;"><strong>Event pass collection will<br />be assisted by FR technology.<br />Scanning of the QR code<br />as an alternate mode.</strong></p><br />
+				<img src=cid:qrcode alt="QR Code" class="pl-20" /><br /><br />
+				<strong class="pl-20">#serialno#</strong>
+			</td>
+			<td valign="top">
+				<span class="mw-150">Name</span><span class="mw-20">:</span>#name#<br />
+				<span class="mw-150">Designation</span><span class="mw-20">:</span>#designation#<br />
+				<span class="mw-150">Organisation</span><span class="mw-20">:</span>#organisation#<br />
+				<span class="mw-150">Mobile</span><span class="mw-20">:</span>#mobile#<br />
+				<span class="mw-150">Email</span><span class="mw-20">:</span>#email#<br />
+				<br />
+				<p style="color: #00ffff; margin: 0;">HTX Launch Event Details</p>
+				<span class="mw-150">Venue</span><span class="mw-20">:</span>The Theatre at Mediacorp<br />
+				<span class="mw-150">Address</span><span class="mw-20">:</span><u>1 Stars Avenue, Singapore 138507</u><br />
+				<span class="mw-150">Time</span><span class="mw-20">:</span>1630 - 1800 hours<br />
+			</td>
+		</tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="pl-20">
+                More details will be sent to you nearer the date.<br />
+                For enquiries, please contact <a href="mailto:htxlaunch@htxlaunch.sg" style="color:#fff;">htxlaunch@htxlaunch.sg.</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="pl-20">
+                On Behalf of<br /><br />
+                HTX Organising Committee
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+    </table>
+</body>
+</html>
